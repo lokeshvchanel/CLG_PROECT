@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Role Selection</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-image: url("{{ url_for('static', filename='books.jpg') }}");
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        /* background-color: #b9d4a2; */
+        margin: 0;
+        padding: 0;
+        color: #f8f8f8;
+      }
+      .container {
+        max-width: 600px;
+        margin: 200px auto;
+        background: rgba(0, 0, 0, 0.389);
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        padding: 50px;
+      }
+      h2 {
+        text-align: center;
+        color: #b5d1ee;
+      }
+      .form-group {
+        margin-bottom: 30px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .btn {
+        width: 100%;
+        padding: 10px;
+
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .btn:hover {
+        background-color: #0056b3;
+      }
+      .error {
+        color: red;
+        margin-top: 10px;
+        text-align: center;
+      }
+      .success {
+        color: green;
+        margin-top: 10px;
+        text-align: center;
+      }
+      @media (max-width: 600px) {
+        .container {
+          margin: 20px;
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Role Selection Page -->
+    <div class="container" id="role-selection">
+      <h2>Select Your Role</h2>
+      <button
+        class="btn"
+        onclick="showStudentLogin() "
+        style="margin-bottom: 20px"
+      >
+        Student
+      </button>
+      <button class="btn" onclick="showStaffLogin()">Staff</button>
+    </div>
+
+    <!-- Student Login -->
+    <div class="container" id="student-login" style="display: none">
+      <h2>Student Login</h2>
+      <div class="form-group">
+        <input type="text" id="student-username" placeholder="Enter username" />
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          id="student-password"
+          placeholder="Enter password"
+        />
+      </div>
+      <button class="btn" onclick="studentLogin()">Login</button>
+      <div class="error" id="student-login-error"></div>
+    </div>
+
+    <!-- Staff Login -->
+    <div class="container" id="staff-login" style="display: none">
+      <h2>Staff Login</h2>
+      <div class="form-group">
+        <input type="text" id="staff-username" placeholder="Enter username" />
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          id="staff-password"
+          placeholder="Enter password"
+        />
+      </div>
+      <button class="btn" onclick="staffLogin()">Login</button>
+      <div class="error" id="staff-login-error"></div>
+    </div>
+
+    <!-- Student Form Page -->
+    <div class="container" id="student-form" style="display: none">
+      <h2>Student Form</h2>
+      <form id="student-form-data">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter your name" required />
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" placeholder="Enter your age" required />
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input
+            type="text"
+            id="address"
+            placeholder="Enter your address"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="father-name">Father's Name</label>
+          <input
+            type="text"
+            id="father-name"
+            placeholder="Enter your father's name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="mother-name">Mother's Name</label>
+          <input
+            type="text"
+            id="mother-name"
+            placeholder="Enter your mother's name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="father-occupation">Father's Occupation</label>
+          <input
+            type="text"
+            id="father-occupation"
+            placeholder="Enter your father's occupation"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="mother-occupation">Mother's Occupation</label>
+          <input
+            type="text"
+            id="mother-occupation"
+            placeholder="Enter your mother's occupation"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="aadhar">Aadhar Card Number</label>
+          <input
+            type="text"
+            id="aadhar"
+            placeholder="Enter your Aadhar card number"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="text"
+            id="phone"
+            placeholder="Enter your phone number"
+            required
+          />
+        </div>
+        <button type="button" class="btn" onclick="submitStudentForm()">
+          Submit
+        </button>
+        <div class="error" id="form-error"></div>
+        <div class="success" id="form-success"></div>
+      </form>
+    </div>
+
+    <!-- Staff Search Page -->
+    <div class="container" id="staff-search" style="display: none">
+      <h2>Search Student</h2>
+      <div class="form-group">
+        <input type="text" id="search-name" placeholder="Enter student name" />
+      </div>
+      <button class="btn" onclick="searchStudent()">Search</button>
+      <div id="search-results"></div>
+    </div>
+
+    <script>
+      // Role Selection
+      function showStudentLogin() {
+        document.getElementById("role-selection").style.display = "none";
+        document.getElementById("student-login").style.display = "block";
+      }
+
+      function showStaffLogin() {
+        document.getElementById("role-selection").style.display = "none";
+        document.getElementById("staff-login").style.display = "block";
+      }
+
+      // Student Login
+      function studentLogin() {
+        const username = document.getElementById("student-username").value;
+        const password = document.getElementById("student-password").value;
+
+        if (username === "student" && password === "password") {
+          document.getElementById("student-login").style.display = "none";
+          document.getElementById("student-form").style.display = "block";
+        } else {
+          document.getElementById("student-login-error").textContent =
+            "Invalid credentials";
+        }
+      }
+
+      // Staff Login
+      function staffLogin() {
+        const username = document.getElementById("staff-username").value;
+        const password = document.getElementById("staff-password").value;
+
+        if (username === "staff" && password === "password") {
+          document.getElementById("staff-login").style.display = "none";
+          document.getElementById("staff-search").style.display = "block";
+        } else {
+          document.getElementById("staff-login-error").textContent =
+            "Invalid credentials";
+        }
+      }
+
+      // Student Form Submission
+      function submitStudentForm() {
+        const name = document.getElementById("name").value;
+        const age = document.getElementById("age").value;
+        const address = document.getElementById("address").value;
+        const father_name = document.getElementById("father-name").value;
+        const mother_name = document.getElementById("mother-name").value;
+        const father_occupation =
+          document.getElementById("father-occupation").value;
+        const mother_occupation =
+          document.getElementById("mother-occupation").value;
+        const aadhar = document.getElementById("aadhar").value;
+        const phone = document.getElementById("phone").value;
+
+        const data = {
+          name,
+          age,
+          address,
+          father_name,
+          mother_name,
+          father_occupation,
+          mother_occupation,
+          aadhar,
+          phone,
+        };
+
+        fetch("/submit_student_form", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((result) => {
+            document.getElementById("form-error").textContent = "";
+            document.getElementById("form-success").textContent =
+              "Form submitted successfully!";
+          })
+          .catch((error) => {
+            document.getElementById("form-error").textContent =
+              "Error submitting form. Please try again.";
+            document.getElementById("form-success").textContent = "";
+            console.error("There was an error:", error);
+          });
+      }
+
+      // Staff Search Function
+      function searchStudent() {
+        const name = document.getElementById("search-name").value;
+
+        fetch(`/search_student?name=${name}`)
+          .then((response) => response.json())
+          .then((data) => {
+            const searchResults = document.getElementById("search-results");
+            searchResults.innerHTML = "";
+            if (data.length === 0) {
+              searchResults.textContent = "No students found.";
+            } else {
+              data.forEach((student) => {
+                const studentDiv = document.createElement("div");
+                studentDiv.innerHTML = `
+                  <strong>Name:</strong> ${student.name} <br />
+                  <strong>Age:</strong> ${student.age} <br />
+                  <strong>Address:</strong> ${student.address} <br />
+                  <strong>Father's Name:</strong> ${student.father_name} <br />
+                  <strong>Mother's Name:</strong> ${student.mother_name} <br />
+                  <strong>aadhar_number:</strong> ${
+                    student.aadhar || "N/A"
+                  } <br />
+                  <strong>phone_number:</strong> ${
+                    student.phone || "N/A"
+                  } <br />
+                  <hr />
+                `;
+                searchResults.appendChild(studentDiv);
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error searching student:", error);
+          });
+      }
+    </script>
+  </body>
+</html>
